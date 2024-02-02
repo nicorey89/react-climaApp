@@ -1,37 +1,47 @@
-import { PropsWithChildren, createContext } from "react";
+import { ChangeEvent, PropsWithChildren, createContext, useState } from "react";
+
+interface BusquedaPayload {
+    ciudad: string;
+    pais: string;
+}
+interface ResultadoApi {
+    name: string;
+    main: {
+        temp: number;
+        temp_max: number;
+        temp_min: number;
+    }
+}
 
 export interface ClimaContextProps {
-    busqueda: {
-        ciudad: string;
-        pais: string;
-    },
-    resultado: {
-        name: string;
-        main: {
-            temp: number;
-            temp_max: number;
-            temp_min: number;
-        }
-    }
+    busqueda: BusquedaPayload,
+    resultado: ResultadoApi,
+    actualizarDatosBusqueda: (e : ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 const ClimaContext = createContext<ClimaContextProps>({} as ClimaContextProps);
 
 const ClimaProvider = ({children}: PropsWithChildren) => {
+
+    const { busqueda, setBusqueda } = useState<BusquedaPayload>({
+        ciudad: "",
+        pais: ""
+    })
+
+    const { resultado, setResultado } = useState<ResultadoApi>({} as ResultadoApi)
+
+    const actualizarDatosBusqueda = (e : ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setBusqueda({
+            ...busqueda,
+            [e.target.name] : e.target.value
+        })
+    } 
+
     return(
         <ClimaContext.Provider
             value={{
-                busqueda: {
-                    ciudad: "",
-                    pais: ""
-                },
-                resultado: {
-                    name: "",
-                    main: {
-                        temp: 0,
-                        temp_max: 0,
-                        temp_min: 0
-                    }
-                }
+                busqueda,
+                resultado,
+                actualizarDatosBusqueda
             }}
         >
             {children}

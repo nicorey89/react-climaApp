@@ -1,12 +1,33 @@
+import { FormEvent, useState } from "react";
 import { useClima } from "../hooks/useClima"
 
 const Formulario = () => {
     
-    const { actualizarDatosBusqueda, busqueda : {ciudad, pais} } = useClima()
+    const { actualizarDatosBusqueda, busqueda : {ciudad, pais}, consultarClima } = useClima();
+    const [alerta, setAlerta] = useState("");
+
+    const handleSubmit = (e : FormEvent) => {
+        e.preventDefault();
+        if([ciudad, pais].includes("")){
+            setAlerta("Todos los campos son necesarios!!!!")
+            return
+        }
+        consultarClima({
+            ciudad,
+            pais
+        });
+        setAlerta("")
+
+
+    }
+
     return (
         <div className="contenedor">
-
+            {
+                alerta && <p style={{backgroundColor: "red", color: "white", padding: "10px"}}>{alerta}</p>
+            }
             <form
+            onSubmit={handleSubmit}
             >
                 <div className="campo">
                     <label htmlFor="ciudad">Ciudad</label>

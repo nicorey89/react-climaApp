@@ -15,7 +15,7 @@ const Formulario = () => {
         consultarClima({
             ciudad,
             pais
-        });
+        })
         setAlerta("")
 
 
@@ -40,13 +40,13 @@ const Formulario = () => {
                     />
                 </div>
                 <div className="campo">
-                    <label htmlFor="pais">País</label>
+                    <label htmlFor="pais">provincias</label>
                     <select
                         id="pais"
                         name="pais"
                         onChange={actualizarDatosBusqueda}
                         value={pais}
-                    >   
+                    >  
                         <option value=""> Seleccione un país</option>
                         <option value="US">Estados Unidos</option>
                         <option value="MX">México</option>

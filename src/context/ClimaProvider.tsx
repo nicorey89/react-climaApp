@@ -31,7 +31,7 @@ const ClimaProvider = ({children}: PropsWithChildren) => {
     })
 
     const [ resultado, setResultado ] = useState<ResultadoApi>({} as ResultadoApi);
-    const [cargando, setCargando ] = useState(false);
+    const [ cargando, setCargando ] = useState(false);
 
     const actualizarDatosBusqueda = (e : ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setBusqueda({
@@ -40,19 +40,20 @@ const ClimaProvider = ({children}: PropsWithChildren) => {
         })
     } 
 
+
     const consultarClima = async (datos : BusquedaPayload) => {
 
         setCargando(true);
 
         try {
+
             const { ciudad, pais } = datos;
             const apiKey = import.meta.env.VITE_API_KEY;
-            const urlGeolocation = "http://example.com/";
-            const { data } = await axios(`${urlGeolocation}?appid=${apiKey}&q=${ciudad},${pais}`);
+            const { data } = await axios(`http://api.openweathermap.org/geo/1.0/direct?appid=${apiKey}&q=${ciudad},${pais}`);
+            console.log(data);
             const { lat, lon } = data[0];
 
-            const urlRequestClima = "http://example2.com/";
-            const { data : datosClima } = await axios(`${urlRequestClima}?lat=${lat}&lon=${lon}&appid${apiKey}`);
+            const { data : datosClima } = await axios(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`);
             setResultado(datosClima);
 
             

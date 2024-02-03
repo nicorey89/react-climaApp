@@ -2,6 +2,7 @@ import { useClima } from "../hooks/useClima"
 import Formulario from "./Formulario"
 import Loading from "./Loading"
 import Resultado from "./Resultado"
+import SinResultado from "./SinResultado"
 
 const AppClima = () => {
   const {resultado, cargando} = useClima()
@@ -15,7 +16,7 @@ const AppClima = () => {
                ? <Loading /> 
                : resultado.name 
                ? <Resultado /> 
-               : <p>No Hubo Resultado!</p>
+               : <SinResultado />
           }
         </main>
     </>
